@@ -6,5 +6,5 @@ public class Anime {
     private Integer episodes;
     private Integer producer_Id;
 
-
 }
+
