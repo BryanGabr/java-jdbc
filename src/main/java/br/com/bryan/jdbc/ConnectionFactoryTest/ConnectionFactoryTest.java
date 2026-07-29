@@ -8,6 +8,6 @@ public class ConnectionFactoryTest {
 
         Producer producer = Producer.builder().name("Mirella").build();
 
-        ProducerRepository.save(producer);
+
     }
 }

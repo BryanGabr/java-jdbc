@@ -22,11 +22,26 @@ public class ProducerRepository {
              Statement stmt = conn.createStatement()) {
              int rowsAffected = stmt.executeUpdate(sql);
 
-            log.info("Database rows affected {}", rowsAffected);
+            log.info("Inserted producer '{}' in the Database, rows affected {}", producer.getName(), rowsAffected);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error while trying for insert prducer '{}'", producer.getName(), e);
         }
     }
 
+    public static void delete(int id){
+        String sql = "delete from anime_store.producer where id = '%d'".formatted(id);
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             // Statement é usada para enviar comandos SQL estáticos ao banco de dados.
+             // Responsável por executar os instruções SQL estáticos.
+
+             Statement stmt = conn.createStatement()) {
+            int rowsAffected = stmt.executeUpdate(sql);
+
+            log.info("Delete producer '{}' from the Database, rows affected {}", id, rowsAffected);
+        } catch (SQLException e) {
+            log.error("Error while trying for delete prducer '{}'", id, e);
+        }
+    }
 
 }
