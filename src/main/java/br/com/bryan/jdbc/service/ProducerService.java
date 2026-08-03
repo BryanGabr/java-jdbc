@@ -3,6 +3,8 @@ package br.com.bryan.jdbc.service;
 import br.com.bryan.jdbc.model.Producer;
 import br.com.bryan.jdbc.repository.ProducerRepository;
 
+import java.util.List;
+
 public class ProducerService {
 
     public static void save(Producer producer){
@@ -23,5 +25,9 @@ public class ProducerService {
         if (id == null || id <= 0){
             throw new IllegalArgumentException("Invalid value for id");
         }
+    }
+
+    public static List<Producer> findAll(){
+        return ProducerRepository.findAll();
     }
 }

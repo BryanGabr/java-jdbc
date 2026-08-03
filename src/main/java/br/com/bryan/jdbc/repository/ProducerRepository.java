@@ -5,21 +5,24 @@ import br.com.bryan.jdbc.model.Producer;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 public class ProducerRepository {
 
-    public static void save(Producer producer){
+    public static void save(Producer producer) {
         String sql = "INSERT INTO `anime_store`.`producer` (`name`) VALUES ('%s')".formatted(producer.getName());
 
         try (Connection conn = ConnectionFactory.getConnection();
-             // Statement é usada para enviar comandos SQL estáticos ao banco de dados.
-            // Responsável por executar os instruções SQL estáticos.
+             // Statement é usada para enviar comandos SQL sem parâmetros ao banco de dados.
+             // executeUpdate responsável por executar os instruções SQL.
 
              Statement stmt = conn.createStatement()) {
-             int rowsAffected = stmt.executeUpdate(sql);
+            int rowsAffected = stmt.executeUpdate(sql);
 
             log.info("Inserted producer '{}' in the Database, rows affected {}", producer.getName(), rowsAffected);
         } catch (SQLException e) {
@@ -27,7 +30,7 @@ public class ProducerRepository {
         }
     }
 
-    public static void delete(int id){
+    public static void delete(int id) {
         String sql = "delete from anime_store.producer where id = '%d'".formatted(id);
 
         try (Connection conn = ConnectionFactory.getConnection();
@@ -42,7 +45,7 @@ public class ProducerRepository {
         }
     }
 
-    public static void update(Producer producer){
+    public static void update(Producer producer) {
         String sql = "update anime_store.producer set name = '%s' where id = '%d'".formatted(producer.getName(), producer.getId());
 
         try (Connection conn = ConnectionFactory.getConnection();
@@ -57,4 +60,37 @@ public class ProducerRepository {
         }
     }
 
+    public static List<Producer> findAll() {
+        log.info("Finding all producers");
+
+        String sql = "select id, name from anime_store.producer";
+
+        List<Producer> producers = new ArrayList<>();
+
+        try (Connection conn = ConnectionFactory.getConnection();
+
+             Statement stmt = conn.createStatement();
+
+             ResultSet rs = stmt.executeQuery(sql);)
+                // ResultSet guarda os resultados da consulta.
+                // executeQuery executa a consulta sql e retorna ResultSet com resultados.
+        {
+
+            while (rs.next()) {
+
+                producers.add(Producer
+                        .builder()
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .build());
+            }
+
+
+        } catch (SQLException e) {
+            log.error("Error while trying for find all producers", e);
+        }
+
+        return producers;
+
+    }
 }
