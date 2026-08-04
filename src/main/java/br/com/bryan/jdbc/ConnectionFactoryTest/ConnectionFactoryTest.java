@@ -21,5 +21,7 @@ public class ConnectionFactoryTest {
         List<Producer> producers = ProducerService.findAll();
 
         log.info("Found producers {}", producers);
+
+        //log.info("Found Producer {}", ProducerService.findAllName("Bry"));
     }
 }
