@@ -4,10 +4,7 @@ import br.com.bryan.jdbc.conn.ConnectionFactory;
 import br.com.bryan.jdbc.model.Producer;
 import lombok.extern.log4j.Log4j2;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,9 +72,8 @@ public class ProducerRepository {
 
         try (Connection conn = ConnectionFactory.getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql);)
-        {
-            while (rs.next()){
+             ResultSet rs = stmt.executeQuery(sql);) {
+            while (rs.next()) {
                 producers.add(Producer
                         .builder()
                         .id(rs.getInt("id"))
@@ -90,4 +86,28 @@ public class ProducerRepository {
         return producers;
     }
 
+    public static void showMetaData() {
+        log.info("Showing Producer MetaData");
+
+        String sql = "select * from anime_store.producer";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql);) {
+
+            ResultSetMetaData rsMetaData = rs.getMetaData();
+            rs.next();
+            int columnCount = rsMetaData.getColumnCount();
+
+            for (int i = 1; i <= columnCount; i++){
+                log.info(rsMetaData.getTableName(i));
+                log.info(rsMetaData.getColumnName(i));
+                log.info(rsMetaData.getColumnTypeName(i));
+                log.info(rsMetaData.getColumnDisplaySize(i));
+            }
+
+        } catch (SQLException e) {
+            log.error("Error while trying for show MetaData", e);
+        }
+    }
 }

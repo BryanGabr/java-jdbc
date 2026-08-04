@@ -18,10 +18,12 @@ public class ConnectionFactoryTest {
         //ProducerService.update(producerToUpdate);
         //ProducerService.save(producer);
 
-        List<Producer> producers = ProducerService.findAll();
+        //List<Producer> producers = ProducerService.findAll();
 
-        log.info("Found producers {}", producers);
+        //log.info("Found producers {}", producers);
 
         //log.info("Found Producer {}", ProducerService.findAllName("Bry"));
+
+        ProducerService.showMetaData();
     }
 }
