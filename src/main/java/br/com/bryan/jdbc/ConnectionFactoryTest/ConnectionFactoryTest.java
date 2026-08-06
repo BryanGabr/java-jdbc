@@ -26,6 +26,8 @@ public class ConnectionFactoryTest {
 
         //ProducerService.showMetaData();
 
-        ProducerService.showDriverMetaData();
+        //ProducerService.showDriverMetaData();
+
+        ProducerService.showTypeScrollWorking();
     }
 }
