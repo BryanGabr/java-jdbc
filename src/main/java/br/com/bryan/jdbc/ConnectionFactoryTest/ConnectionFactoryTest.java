@@ -24,6 +24,8 @@ public class ConnectionFactoryTest {
 
         //log.info("Found Producer {}", ProducerService.findAllName("Bry"));
 
-        ProducerService.showMetaData();
+        //ProducerService.showMetaData();
+
+        ProducerService.showDriverMetaData();
     }
 }

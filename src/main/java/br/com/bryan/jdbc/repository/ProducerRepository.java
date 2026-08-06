@@ -87,7 +87,7 @@ public class ProducerRepository {
     }
 
     public static void showMetaData() {
-        log.info("Showing Producer MetaData");
+        log.info("Showing Producer Metadata");
 
         String sql = "select * from anime_store.producer";
 
@@ -98,7 +98,7 @@ public class ProducerRepository {
             ResultSetMetaData rsMetaData = rs.getMetaData();
             rs.next();
             int columnCount = rsMetaData.getColumnCount();
-
+            log.info("Columns count {}", columnCount);
             for (int i = 1; i <= columnCount; i++){
                 log.info(rsMetaData.getTableName(i));
                 log.info(rsMetaData.getColumnName(i));
@@ -108,6 +108,38 @@ public class ProducerRepository {
 
         } catch (SQLException e) {
             log.error("Error while trying for show MetaData", e);
+        }
+    }
+
+    public static void showDriverMetaData(){
+        log.info("showing Driver Metadata");
+
+        try (Connection conn = ConnectionFactory.getConnection()) {
+
+            DatabaseMetaData dbMetaData = conn.getMetaData();
+
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)){
+                log.info("Supports TYPE_FORWARD_ONLY");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)){
+                    log.info("And supports CONCUR_UPDATABLE");
+                }
+            }
+
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE)){
+                log.info("Supports TYPE_SCROLL_INSENSITIVE");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)){
+                    log.info("And supports CONCUR_UPDATABLE");
+                }
+            }
+
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE)){
+                log.info("Supports TYPE_SCROLL_SENSITIVE");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)){
+                    log.info("And supports CONCUR_UPDATABLE");
+                }
+            }
+        } catch (SQLException e) {
+            log.error("Error while trying for show Driver Metadata", e);
         }
     }
 }

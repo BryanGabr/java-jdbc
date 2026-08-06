@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ProducerService {
 
+
     public static void save(Producer producer){
         ProducerRepository.save(producer);
     }
@@ -37,5 +38,9 @@ public class ProducerService {
 
     public static void showMetaData(){
         ProducerRepository.showMetaData();
+    }
+
+    public static void showDriverMetaData(){
+        ProducerRepository.showDriverMetaData();
     }
 }
