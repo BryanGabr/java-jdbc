@@ -28,6 +28,8 @@ public class ConnectionFactoryTest {
 
         //ProducerService.showDriverMetaData();
 
-        ProducerService.showTypeScrollWorking();
+        //ProducerService.showTypeScrollWorking();
+
+        log.info("Found row {}", ProducerService.findByNameAndUpdateForUpperCase("Lima"));
     }
 }

@@ -176,11 +176,11 @@ public class ProducerRepository {
 
             log.info("----------------------");
 
-             rs.next();
+            rs.next();
 
             log.info("Is after last row? {}", rs.isAfterLast());
 
-            while (rs.previous()){
+            while (rs.previous()) {
                 log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
             }
 
@@ -188,5 +188,26 @@ public class ProducerRepository {
         } catch (SQLException e) {
             log.error("Error while trying for show type scroll working", e);
         }
+    }
+
+    public static List<Producer> findByNameAndUpdateToUpperCase(String name) {
+        String sql = "select id, name from anime_store.producer where name like '%%%s%%';".formatted(name);
+
+        List<Producer> producers = new ArrayList<>();
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+             while (rs.next()){
+                 rs.updateString("name", rs.getString("name").toUpperCase());
+                 rs.updateRow();
+                 producers.add(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+             }
+
+        } catch (SQLException e) {
+            log.error("", e);
+        }
+        return producers;
     }
 }
